@@ -166,7 +166,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.keymap.set('n', '<Leader>t', ":NvimTreeOpen<cr>")
+vim.keymap.set('n', '<Leader>t', "<cmd>silent NvimTreeOpen<cr>")
 require('nvim-tree').setup {
     on_attach = function(bufnr)
         local api = require('nvim-tree.api')
