@@ -105,15 +105,8 @@ require('mason-lspconfig').setup({
     handlers = {
         default_setup,
     },
-    zls = function()
-        require('lspconfig').zls.setup({
-            capabilities = lsp_capabilities,
-            callback = function()
-                vim.g.zig_fmt_autosave = 0
-            end,
-        })
-    end,
 })
+vim.g.zig_fmt_autosave = 0
 
 local cmp = require('cmp')
 
