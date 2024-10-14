@@ -11,6 +11,13 @@ vim.o.rnu = true
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
+vim.keymap.set("n", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set("n", "<leader>p", "\"+p")
+vim.keymap.set("v", "<leader>p", "\"+p")
+vim.keymap.set("n", "<leader>P", "\"+P")
+vim.keymap.set("v", "<leader>P", "\"+P")
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
