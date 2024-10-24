@@ -183,4 +183,7 @@ require('nvim-tree').setup {
 require('lsp_signature').setup({
     extra_trigger_chars = {' '},
     hint_enable = false,
+    vim.keymap.set({ 'n', 'i', 'v' }, '<C-s>', function()
+        require('lsp_signature').toggle_float_win()
+    end, { silent = true, noremap = true, desc = 'toggle lsp signature window' })
 });
