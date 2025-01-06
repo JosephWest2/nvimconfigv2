@@ -59,10 +59,18 @@ require("lazy").setup({
     { 'williamboman/mason-lspconfig.nvim' },
     { 'hrsh7th/nvim-cmp' },
     { 'hrsh7th/cmp-nvim-lsp' },
-    { 'L3MON4D3/LuaSnip' },
+    {
+        'L3MON4D3/LuaSnip',
+        dependencies =
+        { 'rafamadriz/friendly-snippets' },
+
+    },
+    { 'saadparwaiz1/cmp_luasnip' },
     { 'ray-x/lsp_signature.nvim' },
+    { 'Civitasv/cmake-tools.nvim' },
 
 }, {})
+
 
 require('onedark').setup {
     style = 'cool',
@@ -121,9 +129,16 @@ require('mason').setup({})
 require('mason-lspconfig').setup({
     handlers = {
         default_setup,
+        ["rust_analyzer"] = function()
+            require('lspconfig').rust_analyzer.setup({
+                capabilities = lsp_capabilities,
+            })
+        end
     },
 })
 vim.g.zig_fmt_autosave = 0
+
+require("luasnip.loaders.from_vscode").lazy_load()
 
 local cmp = require('cmp')
 
@@ -158,6 +173,21 @@ cmp.setup({
         end,
     },
 })
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    }),
+    matching = { disallow_symbol_nonprefix_matching = false }
+})
 
 -- Treesitter
 require('nvim-treesitter.configs').setup {
@@ -190,6 +220,7 @@ require('nvim-tree').setup {
         api.config.mappings.default_on_attach(bufnr)
         vim.keymap.set('n', '<Leader>r', api.tree.close)
         vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
+        require('nvim-tree.view').View.side = "right"
     end
 }
 
@@ -201,3 +232,9 @@ require('lsp_signature').setup({
         require('lsp_signature').toggle_float_win()
     end, { silent = true, noremap = true, desc = 'toggle lsp signature window' })
 });
+
+-- BarBar
+vim.keymap.set('n', '<A-p>', "<cmd>silent BufferPrevious<CR>")
+vim.keymap.set('n', '<A-n>', "<cmd>silent BufferNext<CR>")
+vim.keymap.set('n', '<C-p>', "<cmd>BufferPick<CR>")
+vim.keymap.set("n", "<A-q>", "<cmd>BufferClose<CR>")
