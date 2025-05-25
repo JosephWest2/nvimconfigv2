@@ -106,8 +106,25 @@ require("lazy").setup({
     },
     { 'saadparwaiz1/cmp_luasnip' },
     { 'ray-x/lsp_signature.nvim' },
-    { 'Civitasv/cmake-tools.nvim' }
+    { 'stevearc/overseer.nvim',
+        opts = {
+            task_list = {
+                min_height = 30
+            }
+        }
+    },
+    { 'Civitasv/cmake-tools.nvim',
+        config = function()
+            require('cmake-tools').setup {
+                cmake_executor={name="overseer", opts={}}
+            }
+        end
+    }
 }, {})
+
+
+vim.keymap.set("n", "<leader>\\", ":OverseerToggle<cr>", { silent = true, noremap = true, desc = 'toggle overseer' })
+vim.keymap.set("n", "<leader>c", ":ClangdSwitchSourceHeader<cr>", {silent = true, noremap = true, desc = 'switch between source and header files}'})
 
 require("luasnip.loaders.from_vscode").lazy_load()
 
